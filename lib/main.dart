@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
 import 'package:walpaper_app/Parsecode.dart';
+import 'package:walpaper_app/PhotoPage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +15,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Wallpapers',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -52,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
    }
 
-
+  String btnSearch="";
 
 
 
@@ -60,10 +62,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Yugioh"),
+        title: Text("Walpapers"),
       ),
       body: FutureBuilder(
-        future: search("space+wallpaper"),
+        future: search(btnSearch),
         builder: (context, AsyncSnapshot<List<Hit>> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
@@ -78,7 +80,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 itemCount: imgdata?.length,
                 itemBuilder: (context, i){
               var images=imgdata![i];
-              return Card(child: Image.network(images.webformatUrl),) ;
+              return Card(child: GestureDetector(
+                  onTap: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Imgdetail(images.webformatUrl)));
+                  },
+                  child: Image.network(images.webformatUrl)),) ;
 
 
                 });
@@ -92,8 +98,10 @@ class _MyHomePageState extends State<MyHomePage> {
       //floataction button ekleyip kategorilere bir bak.
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          String smr="Summer";
-         search(smr);
+        setState(() {
+          btnSearch="summer";
+        });
+
 
         },
         backgroundColor: Colors.green,
