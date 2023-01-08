@@ -66,6 +66,7 @@ flutter:
      - lib/flags/istockphoto-880562092-170667a.jpg
      - lib/flags/images.png
      - lib/flags/medium_rectangle_a.png
+     - lib/flags/Wallpapers.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

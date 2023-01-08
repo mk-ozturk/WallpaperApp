@@ -19,9 +19,15 @@ class AboutEng extends StatelessWidget {
         title: Text("About the App"),),
       body:  Center(child:
       Column(children: [
-        Container(width: 200,height: 200,
+        Spacer(flex:5),
+        Text("Photos are provided by www.pixabay.com."),
+        Spacer(flex: 1,),
+        Container(width: 150,height: 150,
             decoration: BoxDecoration(border: Border.all(width: 1)),
-            child: Image.asset("lib/flags/medium_rectangle_a.png",))
+            child: Image.asset("lib/flags/medium_rectangle_a.png",)),
+        Spacer(flex:5),
+
+
 
 
 
@@ -39,9 +45,15 @@ class AboutTr extends StatelessWidget {
         title: Text("Uygulama Hakkında")),
       body:  Center(child:
       Column(children: [
-        Container(width: 50,height: 50,
-            decoration: BoxDecoration(border: Border.all(width: 5)),
-            child: Image.asset("lib/flags/medium_rectangle_a.png",))
+        Spacer(flex:5),
+        Text("Fotoğraflar www.pixabay.com sitesi tarafından sağlanmaktadır."),
+        Spacer(flex: 1,),
+        Container(width: 150,height: 150,
+            decoration: BoxDecoration(border: Border.all(width: 1)),
+            child: Image.asset("lib/flags/medium_rectangle_a.png",)),
+        Spacer(flex:5),
+
+
 
 
 

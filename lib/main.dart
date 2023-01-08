@@ -8,6 +8,7 @@ import 'package:walpaper_app/Language.dart';
 import 'package:walpaper_app/Parsecode.dart';
 import 'package:walpaper_app/PhotoPage.dart';
 
+
 void main() {
   runApp(const MyApp());
 }
@@ -82,7 +83,14 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(btnLang==true ? "Wallpapers":"Duvar Kağıtları"),
+        actions: [Tab(icon: Image.asset("lib/flags/Wallpapers.png",),)],
+
+
+
+
       ),
+
+      //Body kısmı
       body: FutureBuilder(
         future: search(btnSearch),
         builder: (context, AsyncSnapshot<List<Hit>> snapshot) {
@@ -116,6 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       drawer: SizedBox(
         width: 250,
+        //Drawer kısmı
         child: Drawer(
           child: Column(
             children: [
@@ -133,34 +142,30 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.zero,
                     ),
                   ),
-                  Container(height: scrSizeHeight-130,
+                  SizedBox(height: scrSizeHeight-130,
                     child: ListView.builder(
                       padding: EdgeInsets.zero,
                       itemCount: category.length,
                       itemBuilder: (context, i){
                         return SizedBox(
                             height: 50,
-                            child: Card(child: Align(
-                              alignment: Alignment.centerLeft,
-                                child: SizedBox(
-                                    width: double.infinity,
-                                    child: Align(
-                                        alignment: Alignment.centerLeft,
-                                        child:ButtonTheme(
-                                          minWidth: double.infinity,
-                                          child: TextButton(
-                                             onPressed: (){
-                                              print("basıldı");
+                            child: Card(child: TextButton(
 
-                                              setState(() {
-                                                if(category[i]==category[0]){btnSearch="order=latest";}
-                                               else if (category[i]==category[1]){btnSearch="editors_choice=true";}else{btnSearch="q=${searchWords[i].toLowerCase()}+wallpaper";}});
-                                              Navigator.pop(context);
+                               onPressed: (){
+                                print("pressed");
+                                setState(() {
+                                  if(category[i]==category[0]){btnSearch="order=latest";}
+                                 else if (category[i]==category[1]){btnSearch="editors_choice=true";}else{btnSearch="q=${searchWords[i].toLowerCase()}+wallpaper";}});
+                                Navigator.pop(context);
 
 
-                                            },
-                                            child: Text(category[i],style: TextStyle(color: Colors.black,),),),
-                                        )))),));
+                              },
+                              child: Text(category[i],style: TextStyle(color: Colors.black,),),
+                            style: TextButton.styleFrom(
+                              minimumSize: Size.fromWidth(150),
+                              padding: EdgeInsets.only(left: 8),
+                              alignment: Alignment.centerLeft
+                            ),),));
                     }
 
                     ),
@@ -184,18 +189,19 @@ class _MyHomePageState extends State<MyHomePage> {
                               Lang(btnLang);
                           });
                         }
-                        ,child: Container(width: 75,
+                        ,child: SizedBox(width: 75,
                         child: btnLang==true ? Image.asset("lib/flags/istockphoto-880562092-170667a.jpg"):Image.asset("lib/flags/images.png"),),
                       ),
                       Container(width: 175,
                         alignment: Alignment.center,
-                        child: GestureDetector(
-                          onTap: (){
+                        child: TextButton(
+                          onPressed: (){
                             Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutPage(btnLang)));
-                        },
+                          },
                           child: Text(btnLang==true?"About the App":"Uygulama Hakkında",
-                            style: TextStyle(fontWeight: FontWeight.bold),),
-                        ),
+                            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+
+                        )
                       ),
                     ],
                   ))
