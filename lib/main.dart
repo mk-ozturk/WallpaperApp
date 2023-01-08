@@ -42,11 +42,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
-  var langClass=Language();
-  List searchWords=Language().eng;
 
-  List category=Language().eng;
-  bool btnLang=true;
 
  void Lang(bool  change){
 
@@ -66,14 +62,18 @@ class _MyHomePageState extends State<MyHomePage> {
 
    var url=Uri.parse("https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical");
     var cevap= await http.get(url);
-
+      print("api $id");
    return parseImgs(cevap.body);
 
    }
+ var langClass=Language();
+ List searchWords=Language().eng;
+ List category=Language().eng;
+ bool btnLang=true;
 
   String btnSearch="order=latest";
 
-
+  final TextEditingController textFSearch=TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -82,10 +82,20 @@ class _MyHomePageState extends State<MyHomePage> {
     final scrSizeHeight=screenSize.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text(btnLang==true ? "Wallpapers":"Duvar Kağıtları"),
+        title: TextField(
+          decoration: InputDecoration(hintText:btnLang==true ?"Write for Search":"Aramak için yazınız", ),
+          cursorColor: Colors.white,
+          style: TextStyle(color: Colors.white),
+          controller: textFSearch,
+          onSubmitted: (text){
+            btnSearch="q=$text";
+            textFSearch.clear();
+            print("onsumbit$text");
+          },
+        ),
         actions: [Tab(icon: Image.asset("lib/flags/Wallpapers.png",),)],
 
-
+// türk.e aramalarda sorun yaşayacaksın bu aramalar için bir çare bul. api üzerinde değişiklikle rile bunu yapabilirsin tr abisine bağlanabilrisin
 
 
       ),
