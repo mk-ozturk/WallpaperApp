@@ -38,6 +38,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
 
+  List category=["Editor's Choice","Summer","Winter","Christmas","Car","Flower"];
+
+
   String apiKey="32652039-5de9198ed878c2c8b355d4561";
 
  List<Hit> parseImgs(String cevap){
@@ -47,22 +50,25 @@ class _MyHomePageState extends State<MyHomePage> {
 
    Future<List<Hit>> search(String id) async{
 
-   var url=Uri.parse("https://pixabay.com/api/?key=$apiKey&q=$id");
+   var url=Uri.parse("https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical");
     var cevap= await http.get(url);
 
    return parseImgs(cevap.body);
 
    }
 
-  String btnSearch="";
+  String btnSearch="order=latest";
 
 
 
   @override
   Widget build(BuildContext context) {
+    var screenSize=MediaQuery.of(context).size;
+    final scrSizeWidth=screenSize.width;
+    final scrSizeHeight=screenSize.height;
     return Scaffold(
       appBar: AppBar(
-        title: Text("Walpapers"),
+        title: Text("Wallpapers"),
       ),
       body: FutureBuilder(
         future: search(btnSearch),
@@ -82,9 +88,9 @@ class _MyHomePageState extends State<MyHomePage> {
               var images=imgdata![i];
               return Card(child: GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Imgdetail(images.webformatUrl)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Imgdetail(images.largeImageUrl)));
                   },
-                  child: Image.network(images.webformatUrl)),) ;
+                  child: Image.network(images.previewUrl)),) ;
 
 
                 });
@@ -95,18 +101,75 @@ class _MyHomePageState extends State<MyHomePage> {
           }
         },
       ),
-      //floataction button ekleyip kategorilere bir bak.
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-        setState(() {
-          btnSearch="summer";
-        });
+      drawer: Drawer(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                SizedBox(height: 80,width: double.infinity,
+                  child: DrawerHeader(
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: Text("Categories", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+                    ),
+                    decoration: BoxDecoration(color: Colors.blue),
+                    margin: EdgeInsets.zero,
+                    padding: EdgeInsets.zero,
+                  ),
+                ),
+                Container(height: scrSizeHeight-130,
+                  child: ListView.builder(
+                    padding: EdgeInsets.zero,
+                    itemCount: category.length,
+                    itemBuilder: (context, i){
+                      return SizedBox(
+                          height: 50,
+                          child: Card(child: Align(
+                            alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                  width: double.infinity,
+                                  child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: TextButton(
+                                        style: TextButton.styleFrom(fixedSize: Size(double.infinity, double.infinity)),
+                                        onPressed: (){
+                                          print("basıldı");
+
+                                          setState(() {
+                                            if(category[i]!="Editor's Choice"){btnSearch="q=${category[i].toLowerCase()}+wallpaper";}
+                                            else{btnSearch="editors_choice=true";
+                                          }});
+                                          Navigator.pop(context);
 
 
-        },
-        backgroundColor: Colors.green,
-        child: Text("Summer"),
+                                        },
+                                        child: Text(category[i],style: TextStyle(color: Colors.black,),),)))),));
+                  }
+
+                  ),
+                ),
+
+
+
+
+              ],
+            ),
+            Container(
+                color: Colors.lightBlue,
+                height: 50,
+                width: double.infinity,
+                child: Center(child: Text("About the App",style: TextStyle(fontWeight: FontWeight.bold),)))
+          ],
+        ),
+
+
+
+
+
+
       ),
+
+
     );
   }
 }
