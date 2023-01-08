@@ -5,15 +5,16 @@ class Imgdetail extends StatelessWidget {
 
 
    String imgUrl;
+   bool  lang;
 
 
-   Imgdetail(this.imgUrl);
+   Imgdetail(this.imgUrl,this.lang);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Fotoğraf Detayı"),
+        title: Text(lang==true ? "Photo Detail":"Fotoğraf Detayı"),
         actions: [
          PopupMenuButton(icon: Icon(Icons.more_vert),itemBuilder: (context)=>[
            PopupMenuItem(child: Text("Kilit Ekranı Olarak Ayarla"),
