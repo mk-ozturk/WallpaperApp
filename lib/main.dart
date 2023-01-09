@@ -59,8 +59,8 @@ class _MyHomePageState extends State<MyHomePage> {
    }
 
    Future<List<Hit>> search(String id) async{
-
-   var url=Uri.parse("https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical");
+   String api= btnLang==true ? "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical": "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical&lang=tr";
+   var url=Uri.parse(api);
     var cevap= await http.get(url);
       print("api $id");
    return parseImgs(cevap.body);
@@ -112,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
             debugPrint("başarıyla baglanıldı");
             var imgdata=snapshot.data;
             return GridView.builder(gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
+                crossAxisCount: 2,
                 ),
                 itemCount: imgdata?.length,
                 itemBuilder: (context, i){
@@ -164,8 +164,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                onPressed: (){
                                 print("pressed");
                                 setState(() {
-                                  if(category[i]==category[0]){btnSearch="order=latest";}
-                                 else if (category[i]==category[1]){btnSearch="editors_choice=true";}else{btnSearch="q=${searchWords[i].toLowerCase()}+wallpaper";}});
+                                  if(category[i]==category[0]){btnSearch="order=latest&q=wallpaper";}
+                                 else if (category[i]==category[1]){btnSearch="editors_choice=true";}else{btnSearch="q=${category[i].toLowerCase()}+${btnLang==true? "wallpaper":"duvar+kağıdı"}";}});
                                 Navigator.pop(context);
 
 
