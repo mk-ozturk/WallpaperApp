@@ -1,6 +1,5 @@
 import 'dart:convert';
-
-
+import 'package:bordered_text/bordered_text.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'as http;
 import 'package:walpaper_app/AboutPage.dart';
@@ -58,6 +57,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
    }
 
+
+
    Future<List<Hit>> search(String id) async{
    String api= btnLang==true ? "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical": "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical&lang=tr";
    var url=Uri.parse(api);
@@ -66,12 +67,16 @@ class _MyHomePageState extends State<MyHomePage> {
    return parseImgs(cevap.body);
 
    }
+
+
+
  var langClass=Language();
  List searchWords=Language().eng;
  List category=Language().eng;
  bool btnLang=true;
+ List catPhoto=Photos().categoryPhoto;
 
-  String btnSearch="order=latest";
+  String btnSearch="order=latest&q=wallpaper";
 
   final TextEditingController textFSearch=TextEditingController();
 
@@ -80,6 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
     var screenSize=MediaQuery.of(context).size;
     final scrSizeWidth=screenSize.width;
     final scrSizeHeight=screenSize.height;
+    print(scrSizeHeight.toString());
+    final double viewH=scrSizeHeight/3;
+    final double viewW=scrSizeWidth/2;
     return Scaffold(
       appBar: AppBar(
         title: TextField(
@@ -88,7 +96,8 @@ class _MyHomePageState extends State<MyHomePage> {
           style: TextStyle(color: Colors.white),
           controller: textFSearch,
           onSubmitted: (text){
-            btnSearch="q=$text";
+            String noSpace=text.replaceAll(" ", "+");
+            btnSearch="q=$noSpace";
             textFSearch.clear();
             print("onsumbit$text");
           },
@@ -112,16 +121,23 @@ class _MyHomePageState extends State<MyHomePage> {
             debugPrint("başarıyla baglanıldı");
             var imgdata=snapshot.data;
             return GridView.builder(gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 3,
+                mainAxisSpacing: 1,
+                crossAxisSpacing: 1,
+                mainAxisExtent: viewW,
+
+
                 ),
                 itemCount: imgdata?.length,
                 itemBuilder: (context, i){
               var images=imgdata![i];
-              return Card(child: GestureDetector(
+              return Container(
+
+                  child: GestureDetector(
                   onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Imgdetail(images.largeImageUrl,btnLang)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Imgdetail(images.largeImageUrl,btnLang,images.user,images.userImageUrl)));
                   },
-                  child: Image.network(images.previewUrl)),) ;
+                  child: Image.network(images.previewUrl,fit: BoxFit.cover,),),) ;
 
 
                 });
@@ -144,7 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: DrawerHeader(
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
-                        child: Text(btnLang==true?"Categories":"Kategoriler",
+                        child: Text(btnLang==true?"Categories":"Kategoriler",textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
                       ),
                       decoration: BoxDecoration(color: Colors.blue),
@@ -157,25 +173,46 @@ class _MyHomePageState extends State<MyHomePage> {
                       padding: EdgeInsets.zero,
                       itemCount: category.length,
                       itemBuilder: (context, i){
-                        return SizedBox(
-                            height: 50,
-                            child: Card(child: TextButton(
 
-                               onPressed: (){
-                                print("pressed");
-                                setState(() {
-                                  if(category[i]==category[0]){btnSearch="order=latest&q=wallpaper";}
-                                 else if (category[i]==category[1]){btnSearch="editors_choice=true";}else{btnSearch="q=${category[i].toLowerCase()}+${btnLang==true? "wallpaper":"duvar+kağıdı"}";}});
-                                Navigator.pop(context);
+                        return Stack(
+                          children: [
+                            Container(
+                                height: 50.31,
+                                width: 250,
+                                child: Image.network(
+                                  catPhoto[i],
+                                  fit: BoxFit.cover ,
+                                  )),
+                           SizedBox(
+                                height: 45,
+                                child: TextButton(
+
+                                   onPressed: (){
+                                    print("pressed");
+                                    setState(() {
+                                      if(category[i]==category[0]){btnSearch="editors_choice=true";}
+                                     else{btnSearch="q=${category[i].toLowerCase()}+${btnLang==true? "wallpaper":"duvar+kağıdı"}";}});
+                                    Navigator.pop(context);
 
 
-                              },
-                              child: Text(category[i],style: TextStyle(color: Colors.black,),),
-                            style: TextButton.styleFrom(
-                              minimumSize: Size.fromWidth(150),
-                              padding: EdgeInsets.only(left: 8),
-                              alignment: Alignment.centerLeft
-                            ),),));
+                                  },
+                                  child: BorderedText(
+                                    strokeWidth: 5,
+                                    strokeColor: Colors.black,
+                                    child: Text(category[i],
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 25,
+                                           ),),
+                                  ),
+                                style: TextButton.styleFrom(
+                                  minimumSize: Size.fromWidth(250),
+                                  padding: EdgeInsets.only(left: 8),
+                                  alignment: Alignment.center
+                                ),)),
+                          ],
+                        );
                     }
 
                     ),
