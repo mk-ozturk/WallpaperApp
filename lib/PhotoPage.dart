@@ -30,21 +30,47 @@ class Imgdetail extends StatelessWidget {
    Future<void> HomeScrean(urlImg) async{
 
      String result;
-
      try {
        result = await AsyncWallpaper.setWallpaper(
          url: urlImg,
          wallpaperLocation: AsyncWallpaper.HOME_SCREEN,
-         goToHome: goToHome,
+
        )
            ? 'Wallpaper set'
            : 'Failed to get wallpaper.';
      } on PlatformException {
        result = 'Failed to get wallpaper.';
      }
-
-
    }
+   Future<void> LockScreen(urlImg) async {
+     String result;
+
+     try{
+       result = await AsyncWallpaper.setWallpaper(
+           url:urlImg,
+           wallpaperLocation: AsyncWallpaper.LOCK_SCREEN,
+       )
+       ? "Wallpaper set":"Failed to get wallpaper.";
+     } on PlatformException{result="Failed to get wallpaper.";}
+
+
+
+       }
+
+       Future<void> BothScreen(imgUrl)async {
+     String result;
+
+     try {
+       result= await AsyncWallpaper.setWallpaper(
+           url: imgUrl,
+       wallpaperLocation: AsyncWallpaper.BOTH_SCREENS)?
+           "Walpaper set":"Failed";
+     } on PlatformException{result="Failed to get wallpaper.";}
+
+
+
+
+       }
 
 
   @override
@@ -57,9 +83,9 @@ class Imgdetail extends StatelessWidget {
          PopupMenuButton(icon: Icon(Icons.more_vert),itemBuilder: (context)=>[
            PopupMenuItem(child: Text(lang==true ?"Set as Lock Screen":"Kilit Ekranı Olarak Ayarla"),
            value: 1,),
-           PopupMenuItem(child: Text(lang==true ?"Set as Background":"Arka Plan Olarak Ayarla"),
+           PopupMenuItem(child: Text(lang==true ?"Set as Home Screen":"Arka Plan Olarak Ayarla"),
            value: 2,),
-           PopupMenuItem(child: Text(lang==true ?"Set as Lock Screen and Background":"Kilit ve Arka Plan Olarak Ayarla "),
+           PopupMenuItem(child: Text(lang==true ?"Set as Lock Screen and Home Screen":"Kilit ve Arka Plan Olarak Ayarla "),
              value: 3,),
            PopupMenuItem(child: Text(lang==true ?"Download":"İndir"),
              value: 4,)
@@ -68,10 +94,12 @@ class Imgdetail extends StatelessWidget {
          onCanceled: (){print("Do not choosing");},
          onSelected: (menuItemValue){
            if(menuItemValue==1){print("Kilit ekranı olarak ayarlandı");
-                                }
+                                LockScreen(imgUrl);}
            if(menuItemValue==2){print("Arka plan olarak ayarlandı" );
                                 HomeScrean(imgUrl);}
-           if(menuItemValue==3){print("Arka plan ve kilit ekranı plan olarak ayarlandı" );}
+           if(menuItemValue==3){
+                                print("Arka plan ve kilit ekranı plan olarak ayarlandı" );
+                                BothScreen(imgUrl);}
            if(menuItemValue==4){print("indir seçildi" );}
 
          },)
