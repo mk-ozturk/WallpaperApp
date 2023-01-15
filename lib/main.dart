@@ -179,7 +179,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             Container(
                                 height: 50.31,
                                 width: 250,
-                                child: Image.network(
+                                child: Image.asset(
                                   catPhoto[i],
                                   fit: BoxFit.cover ,
                                   )),

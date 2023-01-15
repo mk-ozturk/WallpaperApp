@@ -39,6 +39,7 @@ dependencies:
   url_launcher: ^6.1.7
   async_wallpaper: ^2.0.0
   flutter_cache_manager: ^3.3.0
+  image_downloader: ^0.31.0
 
 dev_dependencies:
   flutter_test:
@@ -71,6 +72,7 @@ flutter:
      - lib/flags/images.png
      - lib/flags/medium_rectangle_a.png
      - lib/flags/Wallpapers.png
+     - lib/photos/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

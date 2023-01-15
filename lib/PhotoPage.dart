@@ -1,8 +1,10 @@
 import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:walpaper_app/FullScrean.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:image_downloader/image_downloader.dart';
 
 class Imgdetail extends StatelessWidget {
 
@@ -41,6 +43,7 @@ class Imgdetail extends StatelessWidget {
      } on PlatformException {
        result = 'Failed to get wallpaper.';
      }
+     print(result);
    }
    Future<void> LockScreen(urlImg) async {
      String result;
@@ -53,7 +56,7 @@ class Imgdetail extends StatelessWidget {
        ? "Wallpaper set":"Failed to get wallpaper.";
      } on PlatformException{result="Failed to get wallpaper.";}
 
-
+        print(result);
 
        }
 
@@ -66,11 +69,29 @@ class Imgdetail extends StatelessWidget {
        wallpaperLocation: AsyncWallpaper.BOTH_SCREENS)?
            "Walpaper set":"Failed";
      } on PlatformException{result="Failed to get wallpaper.";}
-
-
-
-
+         print(result);
        }
+
+
+     Future<void> DownloadImg(imgurl)async{
+       try {
+         // Saved with this method.
+         var imageId = await ImageDownloader.downloadImage(imgUrl);
+         if (imageId == null) {
+           return;
+         }
+
+         // Below is a method of obtaining saved image information.
+         var fileName = await ImageDownloader.findName(imageId);
+         var path = await ImageDownloader.findPath(imageId);
+         var size = await ImageDownloader.findByteSize(imageId);
+         var mimeType = await ImageDownloader.findMimeType(imageId);
+       } on PlatformException catch (error) {
+         print(error);
+       }
+
+
+     }
 
 
   @override
@@ -100,7 +121,8 @@ class Imgdetail extends StatelessWidget {
            if(menuItemValue==3){
                                 print("Arka plan ve kilit ekranı plan olarak ayarlandı" );
                                 BothScreen(imgUrl);}
-           if(menuItemValue==4){print("indir seçildi" );}
+           if(menuItemValue==4){print("indir seçildi" );
+                                DownloadImg(imgUrl);}
 
          },)
         ],
