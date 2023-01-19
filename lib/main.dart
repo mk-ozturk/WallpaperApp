@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
- void Lang(bool  change){
+  void Lang(bool  change){
 
     if(change==true){category=Language().eng;}
     else {category=Language().tr;}
@@ -52,29 +52,29 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   String apiKey="32652039-5de9198ed878c2c8b355d4561";
 
- List<Hit> parseImgs(String cevap){
-   return ImgParse.fromJson(jsonDecode(cevap)).hits;
+  List<Hit> parseImgs(String cevap){
+    return ImgParse.fromJson(jsonDecode(cevap)).hits;
 
-   }
+  }
 
 
 
-   Future<List<Hit>> search(String id) async{
-   String api= btnLang==true ? "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical": "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical&lang=tr";
-   var url=Uri.parse(api);
+  Future<List<Hit>> search(String id) async{
+    String api= btnLang==true ? "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical": "https://pixabay.com/api/?key=$apiKey&$id&min_width=1080&min_height=1920&orientation=vertical&lang=tr";
+    var url=Uri.parse(api);
     var cevap= await http.get(url);
-      print("api $id");
-   return parseImgs(cevap.body);
+    print("api $id");
+    return parseImgs(cevap.body);
 
-   }
+  }
 
 
 
- var langClass=Language();
- List searchWords=Language().eng;
- List category=Language().eng;
- bool btnLang=true;
- List catPhoto=Photos().categoryPhoto;
+  var langClass=Language();
+  List searchWords=Language().eng;
+  List category=Language().eng;
+  bool btnLang=true;
+  List catPhoto=Photos().categoryPhoto;
 
   String btnSearch="order=latest&q=wallpaper";
 
@@ -90,19 +90,19 @@ class _MyHomePageState extends State<MyHomePage> {
     final double viewW=scrSizeWidth/2;
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black87,
         title: TextField(
-          decoration: InputDecoration(hintText:btnLang==true ?"Write for Search":"Aramak için yazınız", ),
+          decoration: InputDecoration(hintText:btnLang==true ?"Write for Search":"Aramak için yazınız",hintStyle: TextStyle(color: Colors.white), ),
           cursorColor: Colors.white,
           style: TextStyle(color: Colors.white),
           controller: textFSearch,
           onSubmitted: (text){
             String noSpace=text.replaceAll(" ", "+");
             btnSearch="q=$noSpace";
-            textFSearch.clear();
             print("onsumbit$text");
           },
         ),
-        actions: [Tab(icon: Image.asset("lib/flags/Wallpapers.png",),)],
+        actions: [Tab(icon: Image.asset("lib/flags/Icon.gif",),)],
 
 // türk.e aramalarda sorun yaşayacaksın bu aramalar için bir çare bul. api üzerinde değişiklikle rile bunu yapabilirsin tr abisine bağlanabilrisin
 
@@ -117,33 +117,31 @@ class _MyHomePageState extends State<MyHomePage> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            debugPrint("başarıyla baglanıldı");
+          } else if (snapshot.hasData) {
+            debugPrint("Connecting Completed");
             var imgdata=snapshot.data;
             return GridView.builder(gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                mainAxisSpacing: 1,
-                crossAxisSpacing: 1,
-                mainAxisExtent: viewW,
+              crossAxisCount: 3,
+              mainAxisSpacing: 1,
+              crossAxisSpacing: 1,
+              mainAxisExtent: viewW,
 
 
-                ),
+            ),
                 itemCount: imgdata?.length,
                 itemBuilder: (context, i){
-              var images=imgdata![i];
-              return Container(
-
-                  child: GestureDetector(
-                  onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=> Imgdetail(images.largeImageUrl,btnLang,images.user,images.userImageUrl)));
-                  },
-                  child: Image.network(images.previewUrl,fit: BoxFit.cover,),),) ;
+                  var images=imgdata![i];
+                  return GestureDetector(
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=> Imgdetail(images.largeImageUrl,btnLang,images.user,images.userImageUrl)));
+                    },
+                    child: Image.network(images.previewUrl,fit: BoxFit.cover,),) ;
 
 
                 });
           } else {
             return Center(
-              child: Text(snapshot.error.toString()),
+              child: Text("Not Found"),
             );
           }
         },
@@ -161,70 +159,69 @@ class _MyHomePageState extends State<MyHomePage> {
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0),
                         child: Text(btnLang==true?"Categories":"Kategoriler",textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold,color: Colors.white),),
                       ),
-                      decoration: BoxDecoration(color: Colors.blue),
+                      decoration: BoxDecoration(color: Colors.black87),
                       margin: EdgeInsets.zero,
                       padding: EdgeInsets.zero,
                     ),
                   ),
-                  SizedBox(height: scrSizeHeight-130,
+                  Container(
+                    color: Colors.grey,
+                    height: scrSizeHeight-130,
                     child: ListView.builder(
-                      padding: EdgeInsets.zero,
-                      itemCount: category.length,
-                      itemBuilder: (context, i){
+                        padding: EdgeInsets.zero,
+                        itemCount: category.length,
+                        itemBuilder: (context, i){
 
-                        return Stack(
-                          children: [
-                            Container(
-                                height: 50.31,
-                                width: 250,
-                                child: Image.asset(
-                                  catPhoto[i],
-                                  fit: BoxFit.cover ,
+                          return Stack(
+                            children: [
+                              Container(
+
+                                  height: 50.31,
+                                  width: 250,
+                                  child: Image.asset(
+                                    catPhoto[i],
+                                    fit: BoxFit.cover ,
                                   )),
-                           SizedBox(
-                                height: 45,
-                                child: TextButton(
+                              SizedBox(
+                                  height: 45,
+                                  child: TextButton(
 
-                                   onPressed: (){
-                                    print("pressed");
-                                    setState(() {
-                                      if(category[i]==category[0]){btnSearch="editors_choice=true";}
-                                     else{btnSearch="q=${category[i].toLowerCase()}+${btnLang==true? "wallpaper":"duvar+kağıdı"}";}});
-                                    Navigator.pop(context);
+                                    onPressed: (){
+                                      print("pressed");
+                                      setState(() {
+                                        if(category[i]==category[0]){btnSearch="editors_choice=true";}
+                                        else{btnSearch="q=${category[i].toLowerCase()}+${btnLang==true? "wallpaper":"duvar+kağıdı"}";}});
+                                      Navigator.pop(context);
 
 
-                                  },
-                                  child: BorderedText(
-                                    strokeWidth: 5,
-                                    strokeColor: Colors.black,
-                                    child: Text(category[i],
-                                      style: TextStyle(
+                                    },
+                                    child: BorderedText(
+                                      strokeWidth: 5,
+                                      strokeColor: Colors.black,
+                                      child: Text(category[i],
+                                        style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                           fontSize: 25,
-                                           ),),
-                                  ),
-                                style: TextButton.styleFrom(
-                                  minimumSize: Size.fromWidth(250),
-                                  padding: EdgeInsets.only(left: 8),
-                                  alignment: Alignment.center
-                                ),)),
-                          ],
-                        );
-                    }
+                                        ),),
+                                    ),
+                                    style: TextButton.styleFrom(
+                                        minimumSize: Size.fromWidth(250),
+                                        padding: EdgeInsets.only(left: 8),
+                                        alignment: Alignment.center
+                                    ),)),
+                            ],
+                          );
+                        }
 
                     ),
                   ),
-
-
-
-
                 ],
               ),
               Container(
-                  color: Colors.lightBlue,
+                  color: Colors.black87,
                   height: 50,
                   width: double.infinity,
                   child: Row(
@@ -232,23 +229,23 @@ class _MyHomePageState extends State<MyHomePage> {
                       GestureDetector(
                         onTap: (){
                           setState(() {
-                              btnLang=!btnLang;
-                              Lang(btnLang);
+                            btnLang=!btnLang;
+                            Lang(btnLang);
                           });
                         }
                         ,child: SizedBox(width: 75,
                         child: btnLang==true ? Image.asset("lib/flags/istockphoto-880562092-170667a.jpg"):Image.asset("lib/flags/images.png"),),
                       ),
                       Container(width: 175,
-                        alignment: Alignment.center,
-                        child: TextButton(
-                          onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutPage(btnLang)));
-                          },
-                          child: Text(btnLang==true?"About the App":"Uygulama Hakkında",
-                            style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
+                          alignment: Alignment.center,
+                          child: TextButton(
+                            onPressed: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>AboutPage(btnLang)));
+                            },
+                            child: Text(btnLang==true?"About the App":"Uygulama Hakkında",
+                              style: TextStyle(fontWeight: FontWeight.bold,color: Colors.white),),
 
-                        )
+                          )
                       ),
                     ],
                   ))

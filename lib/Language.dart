@@ -25,7 +25,6 @@ class Photos{
 
 
 }
-
 class AboutEng extends StatelessWidget {
   const AboutEng({Key? key}) : super(key: key);
 
@@ -33,6 +32,7 @@ class AboutEng extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black87,
         title: Text("About the App"),),
       body:  Center(child:
       Column(children: [
@@ -59,7 +59,8 @@ class AboutTr extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Uygulama Hakkında")),
+          backgroundColor: Colors.black87,
+          title: Text("Uygulama Hakkında")),
       body:  Center(child:
       Column(children: [
         Spacer(flex:5),
