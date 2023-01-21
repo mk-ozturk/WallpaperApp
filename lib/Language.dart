@@ -39,9 +39,12 @@ class AboutEng extends StatelessWidget {
         Spacer(flex:5),
         Text("Photos are provided by www.pixabay.com."),
         Spacer(flex: 1,),
+
         Container(width: 150,height: 150,
             decoration: BoxDecoration(border: Border.all(width: 1)),
             child: Image.asset("lib/flags/medium_rectangle_a.png",)),
+        Spacer(flex: 1,),
+        Text("App Creator: App from MK"),
         Spacer(flex:5),
 
 
