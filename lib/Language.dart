@@ -72,6 +72,8 @@ class AboutTr extends StatelessWidget {
         Container(width: 150,height: 150,
             decoration: BoxDecoration(border: Border.all(width: 1)),
             child: Image.asset("lib/flags/medium_rectangle_a.png",)),
+        Spacer(flex: 1,),
+        Text("Uygulamayı Yapan: App from MK"),
         Spacer(flex:5),
 
 
