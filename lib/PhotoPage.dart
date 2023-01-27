@@ -2,6 +2,7 @@ import 'package:async_wallpaper/async_wallpaper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:walpaper_app/CropPage.dart';
 import 'package:walpaper_app/FullScrean.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -97,8 +98,9 @@ class Imgdetail extends StatelessWidget {
           ],
             onCanceled: (){print("Do not choosing");},
             onSelected: (menuItemValue){
-              if(menuItemValue==1){print("Kilit ekranı olarak ayarlandı");
-              LockScreen(imgUrl);}
+              if(menuItemValue==1){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>CropPage(imgUrl)));
+              }
               if(menuItemValue==2){print("Arka plan olarak ayarlandı" );
               HomeScrean(imgUrl);}
               if(menuItemValue==3){
