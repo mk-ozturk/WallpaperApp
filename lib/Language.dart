@@ -73,7 +73,7 @@ class AboutTr extends StatelessWidget {
             decoration: BoxDecoration(border: Border.all(width: 1)),
             child: Image.asset("lib/flags/medium_rectangle_a.png",)),
         Spacer(flex: 1,),
-        Text("Uygulamayı Yapan: App from MK"),
+        Text("Uygulama Yayıncısı: App from MK"),
         Spacer(flex:5),
 
 
