@@ -92,7 +92,7 @@ class Imgdetail extends StatelessWidget {
               value: 2,),
             PopupMenuItem(child: Text(lang==true ?"Set as Lock Screen and Home Screen":"Kilit ve Arka Plan Olarak Ayarla "),
               value: 3,),
-            PopupMenuItem(child: Text(lang==true ?"Download":"İndir"),
+            PopupMenuItem(child: Text(lang==true ?"Download":"Indir"),
               value: 4,)
 
           ],
