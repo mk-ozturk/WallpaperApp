@@ -96,7 +96,7 @@ class Imgdetail extends StatelessWidget {
               value: 4,)
 
           ],
-            onCanceled: (){print("Do nt choosing");},
+            onCanceled: (){print("Do not choosing");},
             onSelected: (menuItemValue){
               if(menuItemValue==1){
                 Navigator.push(context, MaterialPageRoute(builder: (context)=>CropPage(imgUrl)));
