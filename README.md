@@ -1,7 +1,7 @@
 Wallpaper App Interface
 
 
-Home Page 
+Home Page Screen
 
 ![](lib/photos/homepage.jpg)
 
