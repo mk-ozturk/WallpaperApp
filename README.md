@@ -12,6 +12,6 @@ Menu Page Screen
 
 
 
-Photo Page
+Photo Page Screen
 
 ![](lib/photos/photopage.jpg)
