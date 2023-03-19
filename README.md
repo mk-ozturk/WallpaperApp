@@ -6,7 +6,7 @@ Home Page Screen
 ![](lib/photos/homepage.jpg)
 
 
-Menu Side Page Screen
+Menu Page Screen
 
 ![](lib/photos/menupage.jpg)
 
